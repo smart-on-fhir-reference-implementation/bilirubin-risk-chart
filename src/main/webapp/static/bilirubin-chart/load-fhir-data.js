@@ -67,7 +67,7 @@ GC.get_data = function() {
       function process(observationValues, toUnit, arr){
         observationValues && observationValues.forEach(function(v){
           arr.push({
-            agemos: months(v.appliesDateTime, patient.birthDate),
+            agemos: months(v.effectiveDateTime, patient.birthDate),
             value: toUnit(v.valueQuantity)
           })
         });

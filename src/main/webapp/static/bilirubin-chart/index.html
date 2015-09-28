@@ -36,12 +36,12 @@
 							<th>Value:Test</th>
 							<th>Risk Zone</th>
 						</tr>
-						<tr ng-repeat="value in values | orderBy:'appliesDateTime'">
-							<td>{{value.appliesDateTime | date:'MM/dd/yyyy HH:mm'}}</td>
+						<tr ng-repeat="value in values | orderBy:'effectiveDateTime'">
+							<td>{{value.effectiveDateTime | date:'MM/dd/yyyy HH:mm'}}</td>
 							<td>{{value.valueQuantity.value}}</td>
-							<td>{{hours(value.appliesDateTime, patient.dob) | number:2}}</td>
+							<td>{{hours(value.effectiveDateTime, patient.dob) | number:2}}</td>
 							<td style="text-transform: capitalize;">{{value.name.coding[0].display}}</td>
-							<td>{{risk(value.valueQuantity.value, hours(value.appliesDateTime, patient.dob))}}</td>
+							<td>{{risk(value.valueQuantity.value, hours(value.effectiveDateTime, patient.dob))}}</td>
 						</tr>
 					</table>
 				</div>

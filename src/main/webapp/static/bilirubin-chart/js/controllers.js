@@ -54,13 +54,13 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
             $scope.patient.dob = patient.birthDate;
 
             if(bilirubins[0]){
-                $scope.values = $filter('orderBy')(bilirubins[0],"appliesDateTime");
+                $scope.values = $filter('orderBy')(bilirubins[0],"effectiveDateTime");
             }
 
             var bilirubin = [];
             angular.forEach($scope.values, function (value) {
-                if(0 <= $scope.hours(value.appliesDateTime, $scope.patient.dob) <=120)
-                    bilirubin.push([$scope.hours(value.appliesDateTime, $scope.patient.dob), parseFloat(value.valueQuantity.value)]);
+                if(0 <= $scope.hours(value.effectiveDateTime, $scope.patient.dob) <=120)
+                    bilirubin.push([$scope.hours(value.effectiveDateTime, $scope.patient.dob), parseFloat(value.valueQuantity.value)]);
             });
 
             $scope.chartConfig = {
