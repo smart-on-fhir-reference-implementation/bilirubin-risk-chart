@@ -43,6 +43,11 @@
 							<td style="text-transform: capitalize;">{{value.name.coding[0].display}}</td>
 							<td>{{risk(value.valueQuantity.value, hours(value.effectiveDateTime, patient.dob))}}</td>
 						</tr>
+                        <!--<tr>-->
+                           <!--<td rowspan="5"><button ng-click="count = count + 1" ng-init="count=0">-->
+                               <!--+-->
+                           <!--</button></td>-->
+                        <!--</tr>-->
 					</table>
 				</div>
 			</div>
@@ -52,7 +57,7 @@
 		<script src="//code.highcharts.com/highcharts.js"></script>
 		<script src="//code.highcharts.com/highcharts-more.js"></script>
 		<script src="lib/highcharts-ng.min.js"></script>
-		<script src="../../js/fhir-client.js"></script>
+		<script src="fhir-client/fhir-client.js"></script>
 		<script src="js/app.js"></script>
 		<script src="js/services.js"></script>
 		<script src="js/controllers.js"></script>
