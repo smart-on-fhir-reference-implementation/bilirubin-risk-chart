@@ -8,11 +8,56 @@
     <packaging>war</packaging>
 
     <name>Bilirubin App</name>
-    <description>Bilirubin reference application</description>
+    <description>Bilirubin Application</description>
     <url>https://healthservices.atlassian.net/wiki/display/HSPC/Healthcare+Services+Platform+Consortium</url>
 
+    <organization>
+        <name>Healthcare Services Platform Consortium</name>
+        <url>http://hspconsortium.org</url>
+    </organization>
+
+    <inceptionYear>2014</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>Apache Software License 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <!-- SSH configuration -->
+    <!--
+        <scm>
+            <connection>scm:git:ssh://git@bitbucket.org/travistcummings/hspconsortium/reference-impl.git</connection>
+            <developerConnection>scm:git:ssh://git@bitbucket.org/travistcummings/hspconsortium/reference-impl.git</developerConnection>
+            <url>https://bitbucket.org/travistcummings/hspconsortium/reference-impl.git</url>
+        </scm>
+    -->
+
+    <!-- HTTPS configuration -->
+    <scm>
+        <url>https://bitbucket.org/hspconsortium/bilirubin-app</url>
+        <connection>scm:git:https://bitbucket.org/hspconsortium/bilirubin-app.git</connection>
+        <developerConnection>scm:git:https://bitbucket.org/hspconsortium/bilirubin-app.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Travis Cummings</name>
+            <email>travis@iSalusSolutions.com</email>
+            <organization>iSalusSolutions</organization>
+            <organizationUrl>http://www.isalussolutions.com</organizationUrl>
+        </developer>
+        <developer>
+            <name>Amy Ballard</name>
+            <email>amy@iSalusSolutions.com</email>
+            <organization>iSalusSolutions</organization>
+            <organizationUrl>http://www.isalussolutions.com</organizationUrl>
+        </developer>
+    </developers>
+
     <build>
-        <finalName>bilirubin-reference-app</finalName>
+        <finalName>bilirubin-app</finalName>
     </build>
 
 </project>
