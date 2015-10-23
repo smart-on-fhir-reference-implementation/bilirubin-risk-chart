@@ -9,11 +9,12 @@
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/app.css">
 
-		<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
 			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+
 		<![endif]-->
 	</head>
 	<body ng-controller="himssCtrl" ng-cloak>
@@ -28,32 +29,71 @@
 			<div class="row" style="height: 100%">
 				<highchart config="chartConfig" class="col-xs-6" style="height: 100%"></highchart>
 				<div class="col-xs-6">
-					<table class="table table-striped">
+                    <table class="layout-table"><tr><td>
+
+                    <table class="table table-striped">
 						<tr>
 							<th>Date/Time</th>
-							<th>Result</th>
+							<th>Result (mg/dL) </th>
 							<th>Age (Hrs)</th>
-							<th>Value:Test</th>
+							<!--<th>Value:Test</th>-->
 							<th>Risk Zone</th>
 						</tr>
 						<tr ng-repeat="value in values | orderBy:'effectiveDateTime'">
 							<td>{{value.effectiveDateTime | date:'MM/dd/yyyy HH:mm'}}</td>
 							<td>{{value.valueQuantity.value}}</td>
 							<td>{{hours(value.effectiveDateTime, patient.dob) | number:2}}</td>
-							<td style="text-transform: capitalize;">{{value.name.coding[0].display}}</td>
+							<!--<td style="text-transform: capitalize;">{{value.code.coding[0].display}}</td>-->
 							<td>{{risk(value.valueQuantity.value, hours(value.effectiveDateTime, patient.dob))}}</td>
 						</tr>
-                        <!--<tr>-->
-                           <!--<td rowspan="5"><button ng-click="count = count + 1" ng-init="count=0">-->
-                               <!--+-->
-                           <!--</button></td>-->
-                        <!--</tr>-->
-					</table>
+                        <tr ng-hide="visible">
+                               <td>
+                                   <div class="form-group" style="width: 125px">
+                                       <input id="obsDate" type="text" class="form-control" ng-model="obsDate">
+                                   </div>
+                               </td>
+                               <td>
+                                   <div class="form-group" style="width: 50px">
+                                         <input id="obsValue" type="text" class="form-control" ng-model="obsValue">
+                                   </div>
+                               </td>
+                               <td>
+                                 {{hours(obsDate, patient.dob) | number:2}}
+                               </td>
+                                <!--<td></td>-->
+                                <td>
+                                    {{risk(obsValue, hours(obsDate, patient.dob))}}
+                                </td>
+                        </tr>
+                        <tr></tr>
+                        <tr ng-show="visible">
+                            <td colspan="4">
+                                <input type="image" src="images/32x32_circle_add_plus.png" ng-model="visible" ng-click="visible = false"
+                                       ng-init="visible=true" class="image-btn" />
+                            </td>
+                        </tr>
+                    </table>
+                    </td></tr>
+                    <tr><td>
+                    <table>
+                        <tr ng-hide="visible">
+                            <td>
+                                <button type="button" ng-model="visible" ng-click="saveObs(obsDate, obsValue); visible = true"
+                                        class="btn-input btn btn-default" ng-disabled="isSaveDisabled">Save</button>
+                            </td>
+                            <td>
+                                <button type="button" ng-model="visible" ng-click="clearNewPoint(); setDefaults(); visible = true"
+                                        class="btn-input btn btn-default">Cancel</button>
+                            </td>
+                        </tr>
+                    </table>
+                    </td></tr>
+                    </table>
 				</div>
 			</div>
 		</div>
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
 		<script src="//code.highcharts.com/highcharts.js"></script>
 		<script src="//code.highcharts.com/highcharts-more.js"></script>
 		<script src="lib/highcharts-ng.min.js"></script>
@@ -62,5 +102,6 @@
 		<script src="js/services.js"></script>
 		<script src="js/controllers.js"></script>
 		<script src="js/filters.js"></script>
-	</body>
+        <script src="lib/moment.js"></script>
+    </body>
 </html>
