@@ -250,6 +250,7 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
                     minPadding: 0,
                     maxPadding: 0,
                     gridLineWidth: 1,
+                    tickInterval: 24,
                     title: {
                         text: 'Postnatal Age (hours)'
                     }
@@ -362,12 +363,6 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
                         type: 'arearange'
                     },
                     {
-                        name: 'Bilirubin',
-                        data: bilirubin,
-                        color: '#7cb5ec',
-                        type: 'line'
-                    },
-                    {
                         name: 'New Bilirubin Result',
                         data: newPoint,
                         type: 'line',
@@ -379,6 +374,12 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
                             radius: 3,
                             lineColor: null
                         }
+                    },
+                    {
+                        name: 'Bilirubin',
+                        data: bilirubin,
+                        color: '#7cb5ec',
+                        type: 'line'
                     }
                 ],
                 title: {
