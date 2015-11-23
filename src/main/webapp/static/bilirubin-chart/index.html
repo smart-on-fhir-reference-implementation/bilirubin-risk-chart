@@ -40,7 +40,10 @@
 							<th>Risk Zone</th>
 						</tr>
 						<tr ng-repeat="value in values | orderBy:'effectiveDateTime'">
-							<td>{{value.effectiveDateTime | date:'MM/dd/yyyy HH:mm'}}</td>
+							<td><div class="form-group" style="width: 125px">
+                                {{value.effectiveDateTime | date:'MM/dd/yyyy HH:mm'}}
+                                </div>
+                            </td>
 							<td>{{value.valueQuantity.value}}</td>
 							<td>{{hours(value.effectiveDateTime, patient.dob) | number:2}}</td>
 							<td style="text-transform: capitalize;">{{value.code.coding[0].display}}</td>

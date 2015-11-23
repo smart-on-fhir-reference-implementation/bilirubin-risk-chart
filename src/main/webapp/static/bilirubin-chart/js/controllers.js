@@ -10,7 +10,7 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
         return (new Date(observation).getTime() - new Date(dob).getTime()) / 36e5;
     };
 
-    $scope.obsDate = moment(new Date()).format('MM/DD/YYYY hh:mm');
+    $scope.obsDate = moment(new Date()).format('MM/DD/YYYY HH:mm');
     $scope.obsValue = 0;
     $scope.isSaveDisabled = true;
 
@@ -39,8 +39,7 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
         }
     });
 
-    function changeClass(elementId, className)
-    {
+    function changeClass(elementId, className){
         var element = document.getElementById(elementId);
         element.className = className;
         $scope.isSaveDisabled = true;
@@ -75,23 +74,6 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
     var lowRiskZone = [];
     for (var int = 0; int <= 120; int++)
         lowRiskZone.push([int, 0, $risk.lowIntermediateLowerLimit(int)]);
-
-    // using jQuery
-    function getCookie(name) {
-        var cookieValue = null;
-        if (document.cookie && document.cookie != '') {
-            var cookies = document.cookie.split(';');
-            for (var i = 0; i < cookies.length; i++) {
-                var cookie = jQuery.trim(cookies[i]);
-                // Does this cookie string begin with the name we want?
-                if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
-    }
 
     function validateNewDate(date) {
         var newDate = new Date(date);
@@ -145,19 +127,8 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
             }\
         }',obsValue, new Date(obsDate).toISOString(), $scope.patient.id);
 
-        var csrftoken = getCookie('XSRF-TOKEN');
-
-        $.ajax({
-            url: $scope.smart.server.serviceUrl+"/Observation",
-            type: 'POST',
-            data: newObs,
-            contentType: "application/json",
-            beforeSend : function( xhr ) {
-                xhr.setRequestHeader( 'Authorization', 'BEARER ' + $scope.smart.server.auth.token );
-                xhr.setRequestHeader('X-CSRF-Token', csrftoken );
-
-            }
-            }).done(function(){
+        $scope.smart.api.create({type: "Observation", data: newObs})
+            .done(function(){
                 queryBilirubinData($scope.smart);
             }).fail(function(){
                 console.log("failed to create observation", arguments);
@@ -174,19 +145,33 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
         });
     };
 
-    function areaRangeClicked (event) {
-      event;
-    };
+    function queryPatient(smart){
+        $.when(smart.patient.read())
+            .done(function(patient){
+                angular.forEach(patient.name[0].given, function (value) {
+                    $scope.patient.name = $scope.patient.name + ' ' + String(value);
+                });
+                angular.forEach(patient.name[0].family, function (value) {
+                    $scope.patient.name = $scope.patient.name + ' ' + value;
+                });
+                $scope.patient.sex = patient.gender;
+                $scope.patient.dob = patient.birthDate;
+                $scope.patient.id  = patient.id;
+            });
+    }
 
     function queryBilirubinData(smart) {
-        var pt = smart.context.patient;
-        var obs = pt.Observation.where.codeIn('58941-6')._count(100);
-        $.when(obs.search())
-        .done(function(bilirubins){
-                if(bilirubins){
-                    $scope.values = $filter('orderBy')(bilirubins,"effectiveDateTime");
-                }
+        var deferred = $.Deferred();
 
+        $.when(smart.patient.api.search({type: "Observation", query: {code: '58941-6'}, count: 50}))
+            .done(function(obsSearchResult){
+                var observations = [];
+                obsSearchResult.data.entry.forEach(function(obs){
+                    observations.push(obs.resource);
+                });
+                if(observations){
+                    $scope.values = $filter('orderBy')(observations,"effectiveDateTime");
+                }
                 while (bilirubin.length > 0) {
                     bilirubin.pop();
                 }
@@ -201,39 +186,19 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
                 if (bilirubin.length > 0) {
                     lastPoint.push(bilirubin[bilirubin.length - 1]);
                 }
+
                 $scope.clearNewPoint();
                 $scope.$apply();
+                deferred.resolve();
             });
+        return deferred;
     }
 
     FHIR.oauth2.ready(function(smart){
         $scope.smart = smart;
-        var pt = smart.context.patient;
-        var obs = pt.Observation.where.codeIn('58941-6')._count(100);
-        $.when(pt.read(), obs.search())
-        .done(function(patient, bilirubins){
-            angular.forEach(patient.name[0].given, function (value) {
-                $scope.patient.name = $scope.patient.name + ' ' + String(value);
-            });
-            angular.forEach(patient.name[0].family, function (value) {
-                $scope.patient.name = $scope.patient.name + ' ' + value;
-            });
-            $scope.patient.sex = patient.gender;
-            $scope.patient.dob = patient.birthDate;
-            $scope.patient.id  = patient.id;
-
-            if(bilirubins[0]){
-                $scope.values = $filter('orderBy')(bilirubins[0],"effectiveDateTime");
-            }
-
-            angular.forEach($scope.values, function (value) {
-                if(validateNewDate(value.effectiveDateTime)) {
-                    bilirubin.push([$scope.hours(value.effectiveDateTime, $scope.patient.dob), parseFloat(value.valueQuantity.value)]);
-                }
-            });
-            if (bilirubin.length > 0) {
-                lastPoint.push(bilirubin[bilirubin.length - 1]);
-            }
+        queryPatient(smart);
+        queryBilirubinData(smart)
+            .done(function(){
 
             $scope.chartConfig = {
                 options: {
@@ -378,7 +343,7 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
                     {
                         name: 'Bilirubin',
                         data: bilirubin,
-                        color: '#7cb5ec',
+                        color: '#0077FF',
                         type: 'line'
                     }
                 ],
