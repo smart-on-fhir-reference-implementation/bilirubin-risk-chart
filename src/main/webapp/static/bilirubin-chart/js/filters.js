@@ -51,4 +51,12 @@ angular.module('himssApp.filters', []).filter('age', [ function() {
 			return dateAge + "d";
 		else return "Could not calculate age";
 	};
-}]);
+}]).filter('textOrNumber', function ($filter) {
+        return function (input, fractionSize) {
+            if (isNaN(input)) {
+                return input;
+            } else {
+                return $filter('number')(input, fractionSize);
+            }
+        };
+    });

@@ -5,6 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Bilirubin</title>
+        <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
 
 		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
 		<link rel="stylesheet" href="css/app.css">
@@ -44,24 +45,27 @@
                                 {{value.effectiveDateTime | date:'MM/dd/yyyy HH:mm'}}
                                 </div>
                             </td>
-							<td>{{value.valueQuantity.value}}</td>
-							<td>{{hours(value.effectiveDateTime, patient.dob) | number:2}}</td>
+							<td><div class="form-group" style="width: 125px">
+                                {{value.valueQuantity.value}}
+                            </div>
+                            </td>
+                            <td>{{hours(value.effectiveDateTime, patient.dob) | number:2}}</td>
 							<td style="text-transform: capitalize;">{{value.code.coding[0].display}}</td>
 							<td>{{risk(value.valueQuantity.value, hours(value.effectiveDateTime, patient.dob))}}</td>
 						</tr>
-                        <tr ng-hide="visible">
+                        <tr ng-show="enterObsVisible">
                                <td>
                                    <div class="form-group" style="width: 125px">
-                                       <input id="obsDate" type="text" class="form-control" ng-model="obsDate">
+                                       <input id="obsDate" type="text" ng-model="obsDate" ng-class="obsDateIsValid ? 'form-control' : 'invalid-form-control'">
                                    </div>
                                </td>
                                <td>
                                    <div class="form-group" style="width: 50px">
-                                         <input id="obsValue" type="text" class="form-control" ng-model="obsValue">
+                                         <input id="obsValue" type="text" ng-model="obsValue" ng-class="obsValueIsValid ? 'form-control' : 'invalid-form-control'">
                                    </div>
                                </td>
                                <td>
-                                    {{hours(obsDate, patient.dob) | number:2}}
+                                    {{hours(obsDate, patient.dob) | textOrNumber:2}}
                                </td>
                                 <td>Transcutaneous Bilirubin</td>
                                 <td>
@@ -69,23 +73,23 @@
                                 </td>
                         </tr>
                         <tr></tr>
-                        <tr ng-show="visible">
+                        <tr ng-hide="enterObsVisible">
                             <td colspan="5">
-                                <input type="image" src="images/32x32_circle_add_plus.png" ng-model="visible" ng-click="visible = false"
-                                       ng-init="visible=true" class="image-btn" />
+                                <input type="image" src="images/32x32_circle_add_plus.png" ng-click="enterObsVisible = true"
+                                       ng-init="enterObsVisible=false" class="image-btn" />
                             </td>
                         </tr>
                     </table>
                     </td></tr>
                     <tr><td>
                     <table>
-                        <tr ng-hide="visible">
+                        <tr ng-show="enterObsVisible">
                             <td>
-                                <button type="button" ng-model="visible" ng-click="saveObs(obsDate, obsValue); visible = true"
+                                <button type="button" ng-click="saveObs(obsDate, obsValue); enterObsVisible = false"
                                         class="btn-input btn btn-default" ng-disabled="isSaveDisabled">Save</button>
                             </td>
                             <td>
-                                <button type="button" ng-model="visible" ng-click="clearNewPoint(); setDefaults(); visible = true"
+                                <button type="button" ng-click="clearNewPoint(); setDefaults(); enterObsVisible = false"
                                         class="btn-input btn btn-default">Cancel</button>
                             </td>
                         </tr>
@@ -96,7 +100,7 @@
 			</div>
 		</div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
 		<script src="//code.highcharts.com/highcharts.js"></script>
 		<script src="//code.highcharts.com/highcharts-more.js"></script>
 		<script src="lib/highcharts-ng.min.js"></script>
@@ -105,6 +109,5 @@
 		<script src="js/services.js"></script>
 		<script src="js/controllers.js"></script>
 		<script src="js/filters.js"></script>
-        <script src="lib/moment.js"></script>
     </body>
 </html>

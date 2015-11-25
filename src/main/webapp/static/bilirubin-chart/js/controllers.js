@@ -7,11 +7,14 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
     $scope.name = '';
 
     $scope.hours = function (observation, dob) {
-        return (new Date(observation).getTime() - new Date(dob).getTime()) / 36e5;
+        var hours = (new Date(observation).getTime() - new Date(dob).getTime()) / 36e5;
+        return (hours > 1000 || hours < -1000) ? "-----" : hours;
     };
 
-    $scope.obsDate = moment(new Date()).format('MM/DD/YYYY HH:mm');
+    $scope.obsDate = $filter('date')(new Date(), 'MM/dd/yyyy HH:mm');
+    $scope.obsDateIsValid = false;
     $scope.obsValue = 0;
+    $scope.obsValueIsValid = false;
     $scope.isSaveDisabled = true;
 
     var newPoint = [];
@@ -19,17 +22,9 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
     var bilirubin = [];
 
     $scope.$watchGroup(['obsValue', 'obsDate'], function() {
-        if (isNaN($scope.obsValue) || $scope.obsValue <= 0 || $scope.obsValue >= 25) {
-            changeClass("obsValue", "invalid-form-control");
-        } else {
-            changeClass("obsValue", "form-control")
-        }
-        if (!validateNewDate($scope.obsDate)) {
-            changeClass("obsDate", "invalid-form-control");
-        } else {
-            changeClass("obsDate", "form-control")
-        }
-        if (!isNaN($scope.obsValue) && $scope.obsValue > 0 && $scope.obsValue <= 25 && validateNewDate($scope.obsDate)) {
+        $scope.obsValueIsValid = (!isNaN($scope.obsValue) && $scope.obsValue > 0 && $scope.obsValue <= 25);
+        $scope.obsDateIsValid = validateNewDate($scope.obsDate);
+        if ($scope.obsValueIsValid && $scope.obsDateIsValid) {
             $scope.isSaveDisabled = false;
             if (newPoint.length == 0 && lastPoint.length > 0)
                 newPoint.push(lastPoint[0]);
@@ -38,13 +33,6 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
             newPoint.push([$scope.hours($scope.obsDate, $scope.patient.dob), parseFloat($scope.obsValue)]);
         }
     });
-
-    function changeClass(elementId, className){
-        var element = document.getElementById(elementId);
-        element.className = className;
-        $scope.isSaveDisabled = true;
-        $scope.clearNewPoint();
-    }
 
     $scope.risk = function (bilirubinResult, ageInHours) {
         if ((bilirubinResult > 20))
@@ -82,17 +70,6 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
 
         var ageHours = $scope.hours(newDate, $scope.patient.dob);
         return (0 <= ageHours && ageHours <=120)
-    }
-
-    $scope.clearNewPoint = function() {
-        while (newPoint.length > 0) {
-            newPoint.pop();
-        }
-    };
-
-    $scope.setDefaults = function() {
-        $scope.obsDate = moment(new Date()).format('MM/DD/YYYY hh:mm');
-        $scope.obsValue = 0;
     }
 
     $scope.saveObs = function(obsDate, obsValue) {
@@ -166,9 +143,11 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
         $.when(smart.patient.api.search({type: "Observation", query: {code: '58941-6'}, count: 50}))
             .done(function(obsSearchResult){
                 var observations = [];
-                obsSearchResult.data.entry.forEach(function(obs){
-                    observations.push(obs.resource);
-                });
+                if (obsSearchResult.data.entry) {
+                    obsSearchResult.data.entry.forEach(function(obs){
+                        observations.push(obs.resource);
+                    });
+                }
                 if(observations){
                     $scope.values = $filter('orderBy')(observations,"effectiveDateTime");
                 }
@@ -187,7 +166,9 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
                     lastPoint.push(bilirubin[bilirubin.length - 1]);
                 }
 
-                $scope.clearNewPoint();
+                while (newPoint.length > 0) {
+                    newPoint.pop();
+                }
                 $scope.$apply();
                 deferred.resolve();
             });
