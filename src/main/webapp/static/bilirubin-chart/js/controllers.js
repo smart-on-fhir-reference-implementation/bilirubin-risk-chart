@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$risk','$filter', '$http', function ($scope, $risk, $filter, $http ) {
+angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$scope', '$risk','$filter', function ($scope, $risk, $filter ) {
     $scope.patient = {
         name: ''
     };
@@ -16,6 +16,8 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
     $scope.obsValue = 0;
     $scope.obsValueIsValid = false;
     $scope.isSaveDisabled = true;
+    $scope.isReadOnly = true;
+    $scope.enterObsVisible = false;
 
     var newPoint = [];
     var lastPoint = [];
@@ -33,6 +35,10 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
             newPoint.push([$scope.hours($scope.obsDate, $scope.patient.dob), parseFloat($scope.obsValue)]);
         }
     });
+
+    $scope.toggleObsVisible = function() {
+        $scope.enterObsVisible = !$scope.enterObsVisible;
+    };
 
     $scope.risk = function (bilirubinResult, ageInHours) {
         if ((bilirubinResult > 20))
@@ -120,7 +126,18 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
                 : match
                 ;
         });
-    };
+    }
+
+    function hasWriteScope(smart){
+        var scope = smart.tokenResponse.scope;
+        var scopes = scope.split(" ");
+
+        angular.forEach(scopes, function (value) {
+            if (value === "patient/*.*" || value === "patient/*.write"){
+                $scope.isReadOnly = false;
+            }
+        });
+    }
 
     function queryPatient(smart){
         $.when(smart.patient.read())
@@ -177,6 +194,7 @@ angular.module('himssApp.controllers', []).controller('himssCtrl', ['$scope', '$
 
     FHIR.oauth2.ready(function(smart){
         $scope.smart = smart;
+        hasWriteScope(smart);
         queryPatient(smart);
         queryBilirubinData(smart)
             .done(function(){

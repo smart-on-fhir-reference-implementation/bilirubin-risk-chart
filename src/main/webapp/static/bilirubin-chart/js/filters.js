@@ -2,7 +2,7 @@
 
 /* Filters */
 
-angular.module('himssApp.filters', []).filter('age', [ function() {
+angular.module('bilirubinApp.filters', []).filter('age', [ function() {
 	return function(date) {
 		var yearNow = new Date().getYear();
 		var monthNow = new Date().getMonth();

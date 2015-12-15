@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="himssApp">
+<html lang="en" ng-app="bilirubinApp">
 	<head>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,7 +18,7 @@
 
 		<![endif]-->
 	</head>
-	<body ng-controller="himssCtrl" ng-cloak>
+	<body ng-controller="bilirubinCtrl" ng-cloak>
 		<header class="navbar navbar-inverse navbar-static-top" role="navigation">
 			<p class="navbar-brand"><span class="glyphicon glyphicon-user"></span>{{patient.name}}</p>
 			<p class="navbar-text">sex <span class="title">{{patient.sex}}</span></p>
@@ -53,7 +53,7 @@
 							<td style="text-transform: capitalize;">{{value.code.coding[0].display}}</td>
 							<td>{{risk(value.valueQuantity.value, hours(value.effectiveDateTime, patient.dob))}}</td>
 						</tr>
-                        <tr ng-show="enterObsVisible">
+                        <tr ng-if="!isReadOnly" ng-show="enterObsVisible">
                                <td>
                                    <div class="form-group" style="width: 125px">
                                        <input id="obsDate" type="text" ng-model="obsDate" ng-class="obsDateIsValid ? 'form-control' : 'invalid-form-control'">
@@ -72,29 +72,28 @@
                                     {{risk(obsValue, hours(obsDate, patient.dob))}}
                                 </td>
                         </tr>
-                        <tr></tr>
-                        <tr ng-hide="enterObsVisible">
+                        <tr ng-if="!isReadOnly"></tr>
+                        <tr ng-if="!isReadOnly" ng-hide="enterObsVisible">
                             <td colspan="5">
-                                <input type="image" src="images/32x32_circle_add_plus.png" ng-click="enterObsVisible = true"
-                                       ng-init="enterObsVisible=false" class="image-btn" />
+                                <input type="image" src="images/32x32_circle_add_plus.png" ng-click="toggleObsVisible()" class="image-btn" />
                             </td>
                         </tr>
                     </table>
                     </td></tr>
-                    <tr><td>
-                    <table>
-                        <tr ng-show="enterObsVisible">
-                            <td>
-                                <button type="button" ng-click="saveObs(obsDate, obsValue); enterObsVisible = false"
-                                        class="btn-input btn btn-default" ng-disabled="isSaveDisabled">Save</button>
-                            </td>
-                            <td>
-                                <button type="button" ng-click="clearNewPoint(); setDefaults(); enterObsVisible = false"
-                                        class="btn-input btn btn-default">Cancel</button>
-                            </td>
-                        </tr>
-                    </table>
-                    </td></tr>
+                        <tr ng-if="!isReadOnly"><td>
+                        <table>
+                            <tr ng-show="enterObsVisible">
+                                <td>
+                                    <button type="button" ng-click="saveObs(obsDate, obsValue); toggleObsVisible()"
+                                            class="btn-input btn btn-default" ng-disabled="isSaveDisabled">Save</button>
+                                </td>
+                                <td>
+                                    <button type="button" ng-click="clearNewPoint(); setDefaults(); toggleObsVisible()"
+                                            class="btn-input btn btn-default">Cancel</button>
+                                </td>
+                            </tr>
+                        </table>
+                        </td></tr>
                     </table>
 				</div>
 			</div>

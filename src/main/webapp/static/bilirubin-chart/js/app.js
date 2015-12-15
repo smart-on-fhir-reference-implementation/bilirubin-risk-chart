@@ -1,3 +1,3 @@
 'use strict';
 
-angular.module('himssApp', ['highcharts-ng', 'himssApp.filters', 'himssApp.services', 'himssApp.controllers']);
+angular.module('bilirubinApp', ['highcharts-ng', 'bilirubinApp.filters', 'bilirubinApp.services', 'bilirubinApp.controllers']);

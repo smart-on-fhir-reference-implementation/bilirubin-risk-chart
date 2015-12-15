@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('himssApp.services', []).factory('$risk', function () {
+angular.module('bilirubinApp.services', []).factory('$risk', function () {
 	return {
 		highRiskLowerLimit: function(hours) {
 			return 0.0000000001087380116978890 * Math.pow(hours, 6)
