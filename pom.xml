@@ -57,7 +57,7 @@
     </developers>
 
     <build>
-        <finalName>bilirubin-app</finalName>
+        <finalName>hsp-bilirubin-app</finalName>
     </build>
 
 </project>
