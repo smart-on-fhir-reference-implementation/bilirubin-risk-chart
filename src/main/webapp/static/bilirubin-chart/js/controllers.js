@@ -133,7 +133,9 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
         var scopes = scope.split(" ");
 
         angular.forEach(scopes, function (value) {
-            if (value === "patient/*.*" || value === "patient/*.write"){
+            if (value === "patient/*.*" ||
+                value === "patient/*.write" ||
+                value === "patient/Observation.write"){
                 $scope.isReadOnly = false;
             }
         });
@@ -148,8 +150,20 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
                 angular.forEach(patient.name[0].family, function (value) {
                     $scope.patient.name = $scope.patient.name + ' ' + value;
                 });
+
+                // Check for the patient-birthTime Extension
+                if (typeof patient.extension !== "undefined") {
+                    angular.forEach(patient.extension, function (extension) {
+                        if (extension.url == "http://hl7.org/fhir/StructureDefinition/patient-birthTime") {
+                            $scope.patient.dob = extension.valueDateTime;
+                        }
+                    });
+                }
+                if ($scope.patient.dob === undefined) {
+                    $scope.patient.dob = patient.birthDate;
+                }
+
                 $scope.patient.sex = patient.gender;
-                $scope.patient.dob = patient.birthDate;
                 $scope.patient.id  = patient.id;
             });
     }
@@ -188,7 +202,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
                 }
                 $scope.$apply();
                 deferred.resolve();
-            });
+            }).fail(function(){deferred.resolve();});
         return deferred;
     }
 
@@ -196,9 +210,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
         $scope.smart = smart;
         hasWriteScope(smart);
         queryPatient(smart);
-        queryBilirubinData(smart)
-            .done(function(){
-
+        queryBilirubinData(smart).done(function(){
             $scope.chartConfig = {
                 options: {
                     tooltip: {
@@ -353,7 +365,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
                     enabled: false
                 }
             };
-        $scope.$digest();
-      });
+            $scope.$digest();
+        });
     });
 }]);
