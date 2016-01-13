@@ -56,12 +56,12 @@
                         <tr ng-if="!isReadOnly" ng-show="enterObsVisible">
                                <td>
                                    <div class="form-group" style="width: 125px">
-                                       <input id="obsDate" type="text" ng-model="obsDate" ng-class="obsDateIsValid ? 'form-control' : 'invalid-form-control'">
+                                       <input id="obsDate" type="text" ng-model="$parent.obsDate" ng-class="$parent.obsDateIsValid ? 'form-control' : 'invalid-form-control'">
                                    </div>
                                </td>
                                <td>
                                    <div class="form-group" style="width: 50px">
-                                         <input id="obsValue" type="text" ng-model="obsValue" ng-class="obsValueIsValid ? 'form-control' : 'invalid-form-control'">
+                                         <input id="obsValue" type="text" ng-model="$parent.obsValue" ng-class="$parent.obsValueIsValid ? 'form-control' : 'invalid-form-control'">
                                    </div>
                                </td>
                                <td>
@@ -84,7 +84,7 @@
                         <table>
                             <tr ng-show="enterObsVisible">
                                 <td>
-                                    <button type="button" ng-click="saveObs(obsDate, obsValue); toggleObsVisible()"
+                                    <button type="button" ng-click="saveObs($parent.obsDate, $parent.obsValue); toggleObsVisible()"
                                             class="btn-input btn btn-default" ng-disabled="isSaveDisabled">Save</button>
                                 </td>
                                 <td>
