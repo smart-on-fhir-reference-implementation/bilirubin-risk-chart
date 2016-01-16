@@ -40,18 +40,18 @@
 							<th>Value:Test</th>
 							<th>Risk Zone</th>
 						</tr>
-						<tr ng-repeat="value in values | orderBy:'effectiveDateTime'">
+						<tr ng-repeat="value in values | orderBy:currentFhirVersion.obsDateTimePath">
 							<td><div class="form-group" style="width: 125px">
-                                {{value.effectiveDateTime | date:'MM/dd/yyyy HH:mm'}}
+                                {{value[currentFhirVersion.obsDateTimePath] | date:'MM/dd/yyyy HH:mm'}}
                                 </div>
                             </td>
 							<td><div class="form-group" style="width: 125px">
                                 {{value.valueQuantity.value}}
                             </div>
                             </td>
-                            <td>{{hours(value.effectiveDateTime, patient.dob) | number:2}}</td>
+                            <td>{{hours(value[currentFhirVersion.obsDateTimePath], patient.dob) | number:2}}</td>
 							<td style="text-transform: capitalize;">{{value.code.coding[0].display}}</td>
-							<td>{{risk(value.valueQuantity.value, hours(value.effectiveDateTime, patient.dob))}}</td>
+							<td>{{risk(value.valueQuantity.value, hours(value[currentFhirVersion.obsDateTimePath], patient.dob))}}</td>
 						</tr>
                         <tr ng-if="!isReadOnly" ng-show="enterObsVisible">
                                <td>
