@@ -89,6 +89,17 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
         return (0 <= ageHours && ageHours <=120)
     }
 
+    $scope.clearNewPoint = function() {
+        while (newPoint.length > 0) {
+            newPoint.pop();
+        }
+    };
+
+    $scope.setDefaults = function() {
+        $scope.obsDate = moment(new Date()).format('MM/DD/YYYY hh:mm');
+        $scope.obsValue = 0;
+    };
+
     $scope.saveObs = function(obsDate, obsValue) {
 
     if (!validateNewDate(obsDate))
