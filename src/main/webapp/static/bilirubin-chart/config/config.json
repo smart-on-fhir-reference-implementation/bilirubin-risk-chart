@@ -5,7 +5,7 @@
         "scopes":  "patient/*.*"
     },
     {
-        "fhir_service": "http://54.213.219.198:9080/hsp-reference-api/data",
+        "fhir_service": "http://localhost:9080/hsp-reference-api/data",
         "client_id": "bilirubin_chart",
         "scopes":  "patient/*.*"
     },
