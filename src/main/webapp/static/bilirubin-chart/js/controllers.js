@@ -39,9 +39,9 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
         $scope.obsDateIsValid = validateNewDate($scope.obsDate);
         if ($scope.obsValueIsValid && $scope.obsDateIsValid) {
             $scope.isSaveDisabled = false;
-            if (newPoint.length == 0 && lastPoint.length > 0)
+            if (newPoint.length === 0 && lastPoint.length > 0)
                 newPoint.push(lastPoint[0]);
-            if (newPoint.length > 1)
+            if (newPoint.length >= 1)
                 newPoint.pop();
             newPoint.push([$scope.hours($scope.obsDate, $scope.patient.dob), parseFloat($scope.obsValue)]);
         }
@@ -96,7 +96,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
     };
 
     $scope.setDefaults = function() {
-        $scope.obsDate = moment(new Date()).format('MM/DD/YYYY hh:mm');
+        $scope.obsDate = $filter('date')(new Date(), 'MM/dd/yyyy HH:mm');
         $scope.obsValue = 0;
     };
 
