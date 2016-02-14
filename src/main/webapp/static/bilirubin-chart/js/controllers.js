@@ -157,7 +157,10 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
         angular.forEach(scopes, function (value) {
             if (value === "patient/*.*" ||
                 value === "patient/*.write" ||
-                value === "patient/Observation.write"){
+                value === "patient/Observation.write" ||
+                value === "user/*.write" ||
+                value === "user/*.*"
+            ){
                 $scope.isReadOnly = false;
             }
         });

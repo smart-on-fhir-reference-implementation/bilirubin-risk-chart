@@ -3,8 +3,9 @@ var client_id = "bilirubin_chart";
 var scopes = "patient/*.*";
 
 jQuery.get('config/config.json', function(data) {
+
     for(var i = 0; i < data.length; i++){
-        if (data[i].fhir_service == iss){
+        if (data[i].fhir_service === iss || (data[i].provider !== undefined && iss.indexOf(data[i].provider) > -1)){
             client_id = data[i].client_id;
             scopes = data[i].scopes;
             break;
