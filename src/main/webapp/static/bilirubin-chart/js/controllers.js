@@ -41,7 +41,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
             $scope.isSaveDisabled = false;
             if (newPoint.length === 0 && lastPoint.length > 0)
                 newPoint.push(lastPoint[0]);
-            if (newPoint.length >= 1)
+            if (newPoint.length > 1)
                 newPoint.pop();
             newPoint.push([$scope.hours($scope.obsDate, $scope.patient.dob), parseFloat($scope.obsValue)]);
         }
