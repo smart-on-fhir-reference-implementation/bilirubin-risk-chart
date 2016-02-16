@@ -2,28 +2,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.hspconsortium</groupId>
-    <artifactId>bilirubin-app</artifactId>
+    <parent>
+        <groupId>org.hspconsortium.reference</groupId>
+        <artifactId>hspc-reference-release</artifactId>
+        <version>0.3</version>
+    </parent>
+
+    <groupId>org.hspconsortium.bilirubin</groupId>
+    <artifactId>hspc-bilirubin-app</artifactId>
     <version>0.9-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Bilirubin App</name>
     <description>Bilirubin Application</description>
     <url>https://healthservices.atlassian.net/wiki/display/HSPC/Healthcare+Services+Platform+Consortium</url>
-
-    <organization>
-        <name>Healthcare Services Platform Consortium</name>
-        <url>http://hspconsortium.org</url>
-    </organization>
-
-    <inceptionYear>2014</inceptionYear>
-
-    <licenses>
-        <license>
-            <name>Apache Software License 2.0</name>
-            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
 
     <!-- SSH configuration -->
     <!--
@@ -41,23 +33,8 @@
         <developerConnection>scm:git:https://bitbucket.org/hspconsortium/bilirubin-app.git</developerConnection>
     </scm>
 
-    <developers>
-        <developer>
-            <name>Travis Cummings</name>
-            <email>travis@iSalusSolutions.com</email>
-            <organization>iSalusSolutions</organization>
-            <organizationUrl>http://www.isalussolutions.com</organizationUrl>
-        </developer>
-        <developer>
-            <name>Amy Ballard</name>
-            <email>amy@iSalusSolutions.com</email>
-            <organization>iSalusSolutions</organization>
-            <organizationUrl>http://www.isalussolutions.com</organizationUrl>
-        </developer>
-    </developers>
-
     <build>
-        <finalName>hspc-bilirubin-app</finalName>
+        <finalName>${project.artifactId}</finalName>
     </build>
 
 </project>
