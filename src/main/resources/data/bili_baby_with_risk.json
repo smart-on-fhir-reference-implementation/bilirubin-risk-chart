@@ -1,0 +1,162 @@
+{
+    "resourceType" : "Bundle",
+    "type" : "transaction",
+    "entry" :
+            [
+                {
+                    "resource" :
+                    {
+                        "resourceType" : "Patient",
+                        "id" : "BILIBABY1",
+                        "name" :
+                                [
+                                    {
+                                        "family" :
+                                                [
+                                                    "Reid"
+                                                ],
+                                        "given" :
+                                                [
+                                                    "Ryan"
+                                                ]
+                                    }
+                                ],
+                        "birthDate" : "2016-02-28T00:00:00",
+                        "gender" : "male",
+                        "extension" :
+                                [
+                                    {
+                                        "url" : "http://hl7.org/fhir/StructureDefinition/patient-birthTime",
+                                        "valueDateTime" : "2016-02-28T00:00:00"
+                                    }
+                                ],
+                        "active" : "true"
+                    },
+                    "request" :
+                    {
+                        "method" : "PUT",
+                        "url" : "Patient/BILIBABY1"
+                    }
+                },
+                {
+                    "resource":{
+                        "resourceType":"Observation",
+                        "id":"BILIBABY1-OBS1",
+                        "status":"final",
+                        "code":{
+                            "coding":[
+                                {
+                                    "system":"http://loinc.org",
+                                    "code":"58941-6",
+                                    "display":"Transcutaneous Bilirubin"
+                                }
+                            ]
+                        },
+                        "subject":{
+                            "reference":"Patient/BILIBABY1"
+                        },
+                        "effectiveDateTime":"2016-02-28T08:12:00",
+                        "valueQuantity":{
+                            "value":2.0,
+                            "unit":"mg/dL",
+                            "code":"mg/dL"
+                        }
+                    },
+                    "request" :
+                    {
+                        "method" : "PUT",
+                        "url" : "Observation/BILIBABY1-OBS1"
+                    }
+                },
+                {
+                    "resource":{
+                        "resourceType":"Observation",
+                        "id":"BILIBABY1-OBS2",
+                        "status":"final",
+                        "code":{
+                            "coding":[
+                                {
+                                    "system":"http://loinc.org",
+                                    "code":"58941-6",
+                                    "display":"Transcutaneous Bilirubin"
+                                }
+                            ]
+                        },
+                        "subject":{
+                            "reference":"Patient/BILIBABY1"
+                        },
+                        "effectiveDateTime":"2016-02-28T13:45:00.000Z",
+                        "valueQuantity":{
+                            "value":4.3,
+                            "unit":"mg/dL",
+                            "code":"mg/dL"
+                        }
+                    },
+                    "request" :
+                    {
+                        "method" : "PUT",
+                        "url" : "Observation/BILIBABY1-OBS2"
+                    }
+                },
+                {
+                    "resource":{
+                        "resourceType":"Observation",
+                        "id":"BILIBABY1-OBS3",
+                        "status":"final",
+                        "code":{
+                            "coding":[
+                                {
+                                    "system":"http://loinc.org",
+                                    "code":"58941-6",
+                                    "display":"Transcutaneous Bilirubin"
+                                }
+                            ]
+                        },
+                        "subject":{
+                            "reference":"Patient/BILIBABY1"
+                        },
+                        "effectiveDateTime":"2016-02-28T23:20:00.000Z",
+                        "valueQuantity":{
+                            "value":5.1,
+                            "unit":"mg/dL",
+                            "code":"mg/dL"
+                        }
+                    },
+                    "request" :
+                    {
+                        "method" : "PUT",
+                        "url" : "Observation/BILIBABY1-OBS3"
+                    }
+                },
+                {
+                    "resource":{
+                        "resourceType":"Observation",
+                        "id":"BILIBABY1-OBS4",
+                        "status":"final",
+                        "code":{
+                            "coding":[
+                                {
+                                    "system":"http://loinc.org",
+                                    "code":"58941-6",
+                                    "display":"Transcutaneous Bilirubin"
+                                }
+                            ]
+                        },
+                        "subject":{
+                            "reference":"Patient/BILIBABY1"
+                        },
+                        "effectiveDateTime":"2016-02-29T06:07:00.000Z",
+                        "valueQuantity":{
+                            "value":13.6,
+                            "unit":"mg/dL",
+                            "code":"mg/dL"
+                        }
+                    },
+                    "request" :
+                    {
+                        "method" : "PUT",
+                        "url" : "Observation/BILIBABY1-OBS4"
+                    }
+                }
+            ]
+}

@@ -200,6 +200,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
                         }
                     });
                 }
+                // if dob wasn't set by the extension
                 if ($scope.patient.dob === undefined) {
                     $scope.patient.dob = patient.birthDate;
                 }
