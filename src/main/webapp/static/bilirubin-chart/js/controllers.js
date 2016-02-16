@@ -132,7 +132,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
             }\
         }',obsValue, new Date(obsDate).toISOString(), $scope.patient.id);
 
-        $scope.smart.api.create({type: "Observation", data: newObs})
+        $scope.smart.api.create({type: "Observation", data: JSON.stringify(JSON.parse(newObs))})
             .done(function(){
                 queryBilirubinData($scope.smart);
             }).fail(function(){
