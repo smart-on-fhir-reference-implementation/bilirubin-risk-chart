@@ -18,22 +18,10 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
     $scope.name = '';
 
     $scope.hours = function (observation, dob) {
-        var obs = $filter('date')(new Date(observation), 'yyyy-MM-ddTHH:MM:ss');
-        var newDob = $filter('date')(new Date(dob), 'yyyy-MM-ddTHH:MM:ss');
-        var hours = (new Date(obs).getTime() - new Date(newDob).getTime()) / 36e5;
+        var hours = (new Date(observation).getTime() - new Date(dob).getTime()) / 36e5;
         return (hours > 1000 || hours < -1000) ? "-----" : hours;
     };
 
-    $scope.hoursLocalTime = function (observation, dob) {
-        var localDate = new Date(observation);
-        var tmp = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
-        var obs = $filter('date')(new Date(tmp), 'yyyy-MM-ddTHH:MM:ss');
-        var newDob = $filter('date')(new Date(dob), 'yyyy-MM-ddTHH:MM:ss');
-        var hours = (new Date(obs).getTime() - new Date(newDob).getTime()) / 36e5;
-        return (hours > 1000 || hours < -1000) ? "-----" : hours;
-    };
-
-    $scope.obsDate = $filter('date')(new Date(), 'MM/dd/yyyy HH:mm');
     $scope.obsDateIsValid = false;
     $scope.obsValue = 0;
     $scope.obsValueIsValid = false;
@@ -47,18 +35,21 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
 
     $scope.$watchGroup(['obsValue', 'obsDate'], function() {
         $scope.obsValueIsValid = (!isNaN($scope.obsValue) && $scope.obsValue > 0 && $scope.obsValue <= 25);
-        $scope.obsDateIsValid = validateNewDate($scope.obsDate);
+        $scope.obsDateIsValid = validateDate($scope.obsDate);
         if ($scope.obsValueIsValid && $scope.obsDateIsValid) {
             $scope.isSaveDisabled = false;
             if (newPoint.length === 0 && lastPoint.length > 0)
                 newPoint.push(lastPoint[0]);
             if (newPoint.length > 1)
                 newPoint.pop();
-            newPoint.push([$scope.hoursLocalTime($scope.obsDate, $scope.patient.dob), parseFloat($scope.obsValue)]);
+            newPoint.push([$scope.hours($scope.obsDate, $scope.patient.dob), parseFloat($scope.obsValue)]);
         }
     });
 
     $scope.toggleObsVisible = function() {
+        if ($scope.obsDate === undefined ) {
+            $scope.obsDate = $filter('date')(new Date(), 'MM/dd/yyyy HH:mm');
+        }
         $scope.enterObsVisible = !$scope.enterObsVisible;
     };
 
@@ -91,16 +82,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
     for (var int = 0; int <= 120; int++)
         lowRiskZone.push([int, 0, $risk.lowIntermediateLowerLimit(int)]);
 
-    function validateNewDate(date) {
-        var newDate = new Date(date);
-        if ( isNaN(newDate.getTime()))
-            return false;
-
-        var ageHours = $scope.hoursLocalTime(newDate, $scope.patient.dob);
-        return (0 <= ageHours && ageHours <=120)
-    }
-
-    function validateCurrentDate(date) {
+    function validateDate(date) {
         var newDate = new Date(date);
         if ( isNaN(newDate.getTime()))
             return false;
@@ -122,12 +104,8 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
 
     $scope.saveObs = function(obsDate, obsValue) {
 
-        if (!validateNewDate(obsDate))
+        if (!validateDate(obsDate))
             return;
-
-        var localDate = new Date(obsDate);
-        obsDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000).toISOString();
-        obsDate = obsDate.slice(0,obsDate.length -5);
 
         var newObs = formatObservation('{ \
             "resourceType" : "Observation",\
@@ -154,7 +132,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
             {\
                 "reference" : "Patient/{2}"\
             }\
-        }',obsValue, obsDate, $scope.patient.id);
+        }',obsValue, new Date(obsDate).toISOString(), $scope.patient.id);
 
         $scope.smart.api.create({type: "Observation", data: JSON.stringify(JSON.parse(newObs))})
             .done(function(){
@@ -228,6 +206,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
                 if ($scope.patient.dob === undefined) {
                     $scope.patient.dob = patient.birthDate;
                 }
+                $scope.patient.dob = new Date($scope.patient.dob);
 
                 $scope.patient.sex = patient.gender;
                 $scope.patient.id  = patient.id;
@@ -244,6 +223,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
                 var observations = [];
                 if (obsSearchResult.data.entry) {
                     obsSearchResult.data.entry.forEach(function(obs){
+                        obs.resource[$scope.currentFhirVersion.obsDateTimePath] = new Date (obs.resource[$scope.currentFhirVersion.obsDateTimePath]);
                         observations.push(obs.resource);
                     });
                 }
@@ -255,15 +235,15 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
                 endDate.setTime(endDate.getTime() + (120*60*60*1000));
 
                 $scope.values = $scope.values.filter(function( obs ) {
-                    return (obs[$scope.currentFhirVersion.obsDateTimePath] >= $scope.patient.dob &&
-                        obs[$scope.currentFhirVersion.obsDateTimePath] <= endDate.toISOString());
+                    return (obs[$scope.currentFhirVersion.obsDateTimePath].toISOString() >= $scope.patient.dob.toISOString() &&
+                        obs[$scope.currentFhirVersion.obsDateTimePath].toISOString() <= endDate.toISOString());
                 });
 
                 while (bilirubin.length > 0) {
                     bilirubin.pop();
                 }
                 angular.forEach($scope.values, function (value) {
-                    if(validateCurrentDate(value[$scope.currentFhirVersion.obsDateTimePath])) {
+                    if(validateDate(value[$scope.currentFhirVersion.obsDateTimePath])) {
                         bilirubin.push([$scope.hours(value[$scope.currentFhirVersion.obsDateTimePath], $scope.patient.dob), parseFloat(value.valueQuantity.value)]);
                     }
                 });
