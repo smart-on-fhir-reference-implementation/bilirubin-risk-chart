@@ -65,11 +65,11 @@
                                    </div>
                                </td>
                                <td>
-                                    {{hours(obsDate, patient.dob) | textOrNumber:2}}
+                                    {{hoursLocalTime(obsDate, patient.dob) | textOrNumber:2}}
                                </td>
                                 <td>Transcutaneous Bilirubin</td>
                                 <td>
-                                    {{risk(obsValue, hours(obsDate, patient.dob))}}
+                                    {{risk(obsValue, hoursLocalTime(obsDate, patient.dob))}}
                                 </td>
                         </tr>
                         <tr ng-if="!isReadOnly"></tr>

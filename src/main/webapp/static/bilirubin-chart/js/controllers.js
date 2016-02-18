@@ -18,7 +18,18 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
     $scope.name = '';
 
     $scope.hours = function (observation, dob) {
-        var hours = (new Date(observation).getTime() - new Date(dob).getTime()) / 36e5;
+        var obs = $filter('date')(new Date(observation), 'yyyy-MM-ddTHH:MM:ss');
+        var newDob = $filter('date')(new Date(dob), 'yyyy-MM-ddTHH:MM:ss');
+        var hours = (new Date(obs).getTime() - new Date(newDob).getTime()) / 36e5;
+        return (hours > 1000 || hours < -1000) ? "-----" : hours;
+    };
+
+    $scope.hoursLocalTime = function (observation, dob) {
+        var localDate = new Date(observation);
+        var tmp = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
+        var obs = $filter('date')(new Date(tmp), 'yyyy-MM-ddTHH:MM:ss');
+        var newDob = $filter('date')(new Date(dob), 'yyyy-MM-ddTHH:MM:ss');
+        var hours = (new Date(obs).getTime() - new Date(newDob).getTime()) / 36e5;
         return (hours > 1000 || hours < -1000) ? "-----" : hours;
     };
 
@@ -43,7 +54,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
                 newPoint.push(lastPoint[0]);
             if (newPoint.length > 1)
                 newPoint.pop();
-            newPoint.push([$scope.hours($scope.obsDate, $scope.patient.dob), parseFloat($scope.obsValue)]);
+            newPoint.push([$scope.hoursLocalTime($scope.obsDate, $scope.patient.dob), parseFloat($scope.obsValue)]);
         }
     });
 
@@ -85,6 +96,15 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
         if ( isNaN(newDate.getTime()))
             return false;
 
+        var ageHours = $scope.hoursLocalTime(newDate, $scope.patient.dob);
+        return (0 <= ageHours && ageHours <=120)
+    }
+
+    function validateCurrentDate(date) {
+        var newDate = new Date(date);
+        if ( isNaN(newDate.getTime()))
+            return false;
+
         var ageHours = $scope.hours(newDate, $scope.patient.dob);
         return (0 <= ageHours && ageHours <=120)
     }
@@ -102,8 +122,11 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
 
     $scope.saveObs = function(obsDate, obsValue) {
 
-    if (!validateNewDate(obsDate))
-         return;
+        if (!validateNewDate(obsDate))
+            return;
+
+        var localDate = new Date(obsDate);
+        var obsDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
 
         var newObs = formatObservation('{ \
             "resourceType" : "Observation",\
@@ -232,14 +255,14 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
 
                 $scope.values = $scope.values.filter(function( obs ) {
                     return (obs[$scope.currentFhirVersion.obsDateTimePath] >= $scope.patient.dob &&
-                        obs[$scope.currentFhirVersion.obsDateTimePath] <= $filter('date')(endDate, 'yyyy-MM-ddTHH:MM:ss'));
+                        obs[$scope.currentFhirVersion.obsDateTimePath] <= endDate.toISOString());
                 });
 
                 while (bilirubin.length > 0) {
                     bilirubin.pop();
                 }
                 angular.forEach($scope.values, function (value) {
-                    if(validateNewDate(value[$scope.currentFhirVersion.obsDateTimePath])) {
+                    if(validateCurrentDate(value[$scope.currentFhirVersion.obsDateTimePath])) {
                         bilirubin.push([$scope.hours(value[$scope.currentFhirVersion.obsDateTimePath], $scope.patient.dob), parseFloat(value.valueQuantity.value)]);
                     }
                 });

@@ -7,27 +7,27 @@
                     "resource" :
                     {
                         "resourceType" : "Patient",
-                        "id" : "BILIBABY",
+                        "id" : "BILIBABY0",
                         "name" :
                                 [
                                     {
                                         "family" :
                                                 [
-                                                    "Bili"
+                                                    "Langenheim"
                                                 ],
                                         "given" :
                                                 [
-                                                    "Baby"
+                                                    "Ruby"
                                                 ]
                                     }
                                 ],
-                        "birthDate" : "2016-01-04T00:00:00",
+                        "birthDate" : "2016-02-04T00:00:00",
                         "gender" : "male",
                         "extension" :
                                 [
                                     {
                                         "url" : "http://hl7.org/fhir/StructureDefinition/patient-birthTime",
-                                        "valueDateTime" : "2016-01-04T00:00:00"
+                                        "valueDateTime" : "2016-02-04T00:00:00"
                                     }
                                 ],
                         "active" : "true"
@@ -35,14 +35,14 @@
                     "request" :
                     {
                         "method" : "PUT",
-                        "url" : "Patient/BILIBABY"
+                        "url" : "Patient/BILIBABY0"
                     }
                 },
                 {
                     "resource" :
                     {
                         "resourceType" : "Observation",
-                        "id" : "BILIBABY-OBS1",
+                        "id" : "BILIBABY0-OBS1",
                         "code" :
                         {
                             "coding" :
@@ -54,61 +54,28 @@
                         },
                         "valueQuantity" :
                         {
-                            "value" : "9.7",
+                            "value" : "2.0",
                             "unit" : "mg/dL",
                             "code" : "mg/dL"
                         },
-                        "effectiveDateTime" : "2016-01-04T14:00:00",
+                        "effectiveDateTime" : "2016-02-04T08:12:00",
                         "status" : "final",
                         "subject" :
                         {
-                            "reference" : "Patient/BILIBABY"
+                            "reference" : "Patient/BILIBABY0"
                         }
                     },
                     "request" :
                     {
                         "method" : "PUT",
-                        "url" : "Observation/BILIBABY-OBS1"
+                        "url" : "Observation/BILIBABY0-OBS1"
                     }
                 },
                 {
                     "resource" :
                     {
                         "resourceType" : "Observation",
-                        "id" : "BILIBABY-OBS2",
-                        "code" :
-                        {
-                            "coding" :
-                            {
-                                "system" : "http://loinc.org",
-                                "code" : "58941-6",
-                                "display" : "Transcutaneous Bilirubin"
-                            }
-                        },
-                        "valueQuantity" :
-                        {
-                            "value" : "7.0",
-                            "unit" : "mg/dL",
-                            "code" : "mg/dL"
-                        },
-                        "effectiveDateTime" : "2016-01-04T08:12:00",
-                        "status" : "final",
-                        "subject" :
-                        {
-                            "reference" : "Patient/BILIBABY"
-                        }
-                    },
-                    "request" :
-                    {
-                        "method" : "PUT",
-                        "url" : "Observation/BILIBABY-OBS2"
-                    }
-                },
-                {
-                    "resource" :
-                    {
-                        "resourceType" : "Observation",
-                        "id" : "BILIBABY-OBS3",
+                        "id" : "BILIBABY0-OBS2",
                         "code" :
                         {
                             "coding" :
@@ -124,57 +91,24 @@
                             "unit" : "mg/dL",
                             "code" : "mg/dL"
                         },
-                        "effectiveDateTime" : "2016-01-06T08:06:00",
+                        "effectiveDateTime" : "2016-02-06T08:06:00",
                         "status" : "final",
                         "subject" :
                         {
-                            "reference" : "Patient/BILIBABY"
+                            "reference" : "Patient/BILIBABY0"
                         }
                     },
                     "request" :
                     {
                         "method" : "PUT",
-                        "url" : "Observation/BILIBABY-OBS3"
+                        "url" : "Observation/BILIBABY0-OBS2"
                     }
                 },
                 {
                     "resource" :
                     {
                         "resourceType" : "Observation",
-                        "id" : "BILIBABY-OBS4",
-                        "code" :
-                        {
-                            "coding" :
-                            {
-                                "system" : "http://loinc.org",
-                                "code" : "58941-6",
-                                "display" : "Transcutaneous Bilirubin"
-                            }
-                        },
-                        "valueQuantity" :
-                        {
-                            "value" : "9.0",
-                            "unit" : "mg/dL",
-                            "code" : "mg/dL"
-                        },
-                        "effectiveDateTime" : "2016-01-04T17:06:00",
-                        "status" : "final",
-                        "subject" :
-                        {
-                            "reference" : "Patient/BILIBABY"
-                        }
-                    },
-                    "request" :
-                    {
-                        "method" : "PUT",
-                        "url" : "Observation/BILIBABY-OBS4"
-                    }
-                },
-                {
-                    "resource" :
-                    {
-                        "resourceType" : "Observation",
-                        "id" : "BILIBABY-OBS5",
+                        "id" : "BILIBABY0-OBS3",
                         "code" :
                         {
                             "coding" :
@@ -190,24 +124,24 @@
                             "unit" : "mg/dL",
                             "code" : "mg/dL"
                         },
-                        "effectiveDateTime" : "2016-01-05T06:36:00",
+                        "effectiveDateTime" : "2016-02-05T06:36:00",
                         "status" : "final",
                         "subject" :
                         {
-                            "reference" : "Patient/BILIBABY"
+                            "reference" : "Patient/BILIBABY0"
                         }
                     },
                     "request" :
                     {
                         "method" : "PUT",
-                        "url" : "Observation/BILIBABY-OBS5"
+                        "url" : "Observation/BILIBABY0-OBS3"
                     }
                 },
                 {
                     "resource" :
                     {
                         "resourceType" : "Observation",
-                        "id" : "BILIBABY-OBS6",
+                        "id" : "BILIBABY0-OBS4",
                         "code" :
                         {
                             "coding" :
@@ -223,24 +157,24 @@
                             "unit" : "mg/dL",
                             "code" : "mg/dL"
                         },
-                        "effectiveDateTime" : "2016-01-05T12:48:00",
+                        "effectiveDateTime" : "2016-02-05T12:48:00",
                         "status" : "final",
                         "subject" :
                         {
-                            "reference" : "Patient/BILIBABY"
+                            "reference" : "Patient/BILIBABY0"
                         }
                     },
                     "request" :
                     {
                         "method" : "PUT",
-                        "url" : "Observation/BILIBABY-OBS6"
+                        "url" : "Observation/BILIBABY0-OBS4"
                     }
                 },
                 {
                     "resource" :
                     {
                         "resourceType" : "Observation",
-                        "id" : "BILIBABY-OBS7",
+                        "id" : "BILIBABY0-OBS5",
                         "code" :
                         {
                             "coding" :
@@ -256,24 +190,24 @@
                             "unit" : "mg/dL",
                             "code" : "mg/dL"
                         },
-                        "effectiveDateTime" : "2016-01-05T20:18:00",
+                        "effectiveDateTime" : "2016-02-05T20:18:00",
                         "status" : "final",
                         "subject" :
                         {
-                            "reference" : "Patient/BILIBABY"
+                            "reference" : "Patient/BILIBABY0"
                         }
                     },
                     "request" :
                     {
                         "method" : "PUT",
-                        "url" : "Observation/BILIBABY-OBS7"
+                        "url" : "Observation/BILIBABY0-OBS5"
                     }
                 },
                 {
                     "resource" :
                     {
                         "resourceType" : "Observation",
-                        "id" : "BILIBABY-OBS8",
+                        "id" : "BILIBABY0-OBS6",
                         "code" :
                         {
                             "coding" :
@@ -289,24 +223,24 @@
                             "unit" : "mg/dL",
                             "code" : "mg/dL"
                         },
-                        "effectiveDateTime" : "2016-01-06T20:18:00",
+                        "effectiveDateTime" : "2016-02-06T20:18:00",
                         "status" : "final",
                         "subject" :
                         {
-                            "reference" : "Patient/BILIBABY"
+                            "reference" : "Patient/BILIBABY0"
                         }
                     },
                     "request" :
                     {
                         "method" : "PUT",
-                        "url" : "Observation/BILIBABY-OBS8"
+                        "url" : "Observation/BILIBABY0-OBS6"
                     }
                 },
                 {
                     "resource" :
                     {
                         "resourceType" : "Observation",
-                        "id" : "BILIBABY-OBS9",
+                        "id" : "BILIBABY0-OBS7",
                         "code" :
                         {
                             "coding" :
@@ -322,50 +256,17 @@
                             "unit" : "mg/dL",
                             "code" : "mg/dL"
                         },
-                        "effectiveDateTime" : "2016-01-07T20:18:00",
+                        "effectiveDateTime" : "2016-02-07T20:18:00",
                         "status" : "final",
                         "subject" :
                         {
-                            "reference" : "Patient/BILIBABY"
+                            "reference" : "Patient/BILIBABY0"
                         }
                     },
                     "request" :
                     {
                         "method" : "PUT",
-                        "url" : "Observation/BILIBABY-OBS9"
-                    }
-                },
-                {
-                    "resource" :
-                    {
-                        "resourceType" : "Observation",
-                        "id" : "BILIBABY-OBS10",
-                        "code" :
-                        {
-                            "coding" :
-                            {
-                                "system" : "http://loinc.org",
-                                "code" : "58941-6",
-                                "display" : "Transcutaneous Bilirubin"
-                            }
-                        },
-                        "valueQuantity" :
-                        {
-                            "value" : "10.7",
-                            "unit" : "mg/dL",
-                            "code" : "mg/dL"
-                        },
-                        "effectiveDateTime" : "2016-01-04T21:30:00",
-                        "status" : "final",
-                        "subject" :
-                        {
-                            "reference" : "Patient/BILIBABY"
-                        }
-                    },
-                    "request" :
-                    {
-                        "method" : "PUT",
-                        "url" : "Observation/BILIBABY-OBS10"
+                        "url" : "Observation/BILIBABY0-OBS7"
                     }
                 }
             ]
