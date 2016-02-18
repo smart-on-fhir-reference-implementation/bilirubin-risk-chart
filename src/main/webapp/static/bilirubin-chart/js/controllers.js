@@ -126,7 +126,8 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
             return;
 
         var localDate = new Date(obsDate);
-        var obsDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
+        obsDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000).toISOString();
+        obsDate = obsDate.slice(0,obsDate.length -5);
 
         var newObs = formatObservation('{ \
             "resourceType" : "Observation",\
@@ -153,7 +154,7 @@ angular.module('bilirubinApp.controllers', []).controller('bilirubinCtrl', ['$sc
             {\
                 "reference" : "Patient/{2}"\
             }\
-        }',obsValue, new Date(obsDate).toISOString(), $scope.patient.id);
+        }',obsValue, obsDate, $scope.patient.id);
 
         $scope.smart.api.create({type: "Observation", data: JSON.stringify(JSON.parse(newObs))})
             .done(function(){
