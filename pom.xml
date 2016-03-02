@@ -17,20 +17,11 @@
     <description>Bilirubin Application</description>
     <url>https://healthservices.atlassian.net/wiki/display/HSPC/Healthcare+Services+Platform+Consortium</url>
 
-    <!-- SSH configuration -->
-    <!--
-        <scm>
-            <connection>scm:git:ssh://git@bitbucket.org/travistcummings/hspconsortium/reference-impl.git</connection>
-            <developerConnection>scm:git:ssh://git@bitbucket.org/travistcummings/hspconsortium/reference-impl.git</developerConnection>
-            <url>https://bitbucket.org/travistcummings/hspconsortium/reference-impl.git</url>
-        </scm>
-    -->
-
-    <!-- HTTPS configuration -->
     <scm>
-        <url>https://bitbucket.org/hspconsortium/bilirubin-app</url>
-        <connection>scm:git:https://bitbucket.org/hspconsortium/bilirubin-app.git</connection>
-        <developerConnection>scm:git:https://bitbucket.org/hspconsortium/bilirubin-app.git</developerConnection>
+        <connection>scm:git:ssh://git@bitbucket.org/hspconsortium/bilirubin-app.git</connection>
+        <developerConnection>scm:git:ssh://git@bitbucket.org/hspconsortium/bilirubin-app.git</developerConnection>
+        <url>https://bitbucket.org/hspconsortium/bilirubin-app.git</url>
+        <tag>HEAD</tag>
     </scm>
 
     <build>
