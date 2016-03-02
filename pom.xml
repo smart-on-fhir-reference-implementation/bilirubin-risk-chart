@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -10,7 +9,7 @@
 
     <groupId>org.hspconsortium.bilirubin</groupId>
     <artifactId>hspc-bilirubin-app</artifactId>
-    <version>0.9-SNAPSHOT</version>
+    <version>0.9</version>
     <packaging>war</packaging>
 
     <name>Bilirubin App</name>
@@ -21,7 +20,7 @@
         <connection>scm:git:ssh://git@bitbucket.org/hspconsortium/bilirubin-app.git</connection>
         <developerConnection>scm:git:ssh://git@bitbucket.org/hspconsortium/bilirubin-app.git</developerConnection>
         <url>https://bitbucket.org/hspconsortium/bilirubin-app.git</url>
-        <tag>HEAD</tag>
+        <tag>hspc-bilirubin-app-0.9</tag>
     </scm>
 
     <build>
