@@ -9,7 +9,7 @@
 
     <groupId>org.hspconsortium.bilirubin</groupId>
     <artifactId>hspc-bilirubin-app</artifactId>
-    <version>0.10</version>
+    <version>0.11-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Bilirubin App</name>
@@ -20,7 +20,7 @@
         <connection>scm:git:ssh://git@bitbucket.org/hspconsortium/bilirubin-app.git</connection>
         <developerConnection>scm:git:ssh://git@bitbucket.org/hspconsortium/bilirubin-app.git</developerConnection>
         <url>https://bitbucket.org/hspconsortium/bilirubin-app.git</url>
-        <tag>hspc-bilirubin-app-0.10</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <build>
