@@ -8,7 +8,7 @@
     </parent>
 
     <groupId>org.hspconsortium.bilirubin</groupId>
-    <artifactId>hspc-bilirubin-app</artifactId>
+    <artifactId>hspc-bilirubin-risk-chart</artifactId>
     <version>0.11-SNAPSHOT</version>
     <packaging>war</packaging>
 
@@ -17,9 +17,9 @@
     <url>https://healthservices.atlassian.net/wiki/display/HSPC/Healthcare+Services+Platform+Consortium</url>
 
     <scm>
-        <connection>scm:git:ssh://git@bitbucket.org/hspconsortium/bilirubin-app.git</connection>
-        <developerConnection>scm:git:ssh://git@bitbucket.org/hspconsortium/bilirubin-app.git</developerConnection>
-        <url>https://bitbucket.org/hspconsortium/bilirubin-app.git</url>
+        <connection>scm:git:ssh://git@bitbucket.org/hspconsortium/bilirubin-risk-chart.git</connection>
+        <developerConnection>scm:git:ssh://git@bitbucket.org/hspconsortium/bilirubin-risk-chart.git</developerConnection>
+        <url>https://bitbucket.org/hspconsortium/bilirubin-risk-chart.git</url>
         <tag>HEAD</tag>
     </scm>
 
